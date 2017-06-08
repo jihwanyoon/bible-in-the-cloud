@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.29)
 # Database: bitc
-# Generation Time: 2017-06-07 23:42:43 +0000
+# Generation Time: 2017-06-08 10:00:39 +0000
 # ************************************************************
 
 
@@ -20,24 +20,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
-# Dump of table abbreviations
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `abbreviations`;
-
-CREATE TABLE `abbreviations` (
-  `id` int(5) NOT NULL AUTO_INCREMENT,
-  `book_id` int(5) NOT NULL,
-  `name` varchar(10) DEFAULT NULL,
-  `created` datetime(4) DEFAULT CURRENT_TIMESTAMP(4),
-  `modified` datetime(4) DEFAULT CURRENT_TIMESTAMP(4) ON UPDATE CURRENT_TIMESTAMP(4),
-  PRIMARY KEY (`id`),
-  KEY `abbreviations_books_id_fk` (`book_id`),
-  CONSTRAINT `abbreviations_books_id_fk` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-
 # Dump of table books
 # ------------------------------------------------------------
 
@@ -45,13 +27,10 @@ DROP TABLE IF EXISTS `books`;
 
 CREATE TABLE `books` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
-  `language_id` int(5) NOT NULL,
-  `name` varchar(10) DEFAULT NULL,
+  `name` varchar(20) DEFAULT NULL,
   `created` datetime(4) DEFAULT CURRENT_TIMESTAMP(4),
   `modified` datetime(4) DEFAULT CURRENT_TIMESTAMP(4) ON UPDATE CURRENT_TIMESTAMP(4),
-  PRIMARY KEY (`id`),
-  KEY `books_languages_id_fk` (`language_id`),
-  CONSTRAINT `books_languages_id_fk` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -70,26 +49,45 @@ CREATE TABLE `languages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+LOCK TABLES `languages` WRITE;
+/*!40000 ALTER TABLE `languages` DISABLE KEYS */;
+
+INSERT INTO `languages` (`id`, `code`, `name`, `created`, `modified`)
+VALUES
+	(1,'en','English','2017-06-08 01:43:56.7558','2017-06-08 01:43:56.7558'),
+	(2,'ko','Korean','2017-06-08 01:44:15.8871','2017-06-08 01:44:15.8871');
+
+/*!40000 ALTER TABLE `languages` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
-# Dump of table verses
+# Dump of table versions
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `verses`;
+DROP TABLE IF EXISTS `versions`;
 
-CREATE TABLE `verses` (
+CREATE TABLE `versions` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
-  `book_id` int(5) NOT NULL,
-  `chapter` int(5) NOT NULL,
-  `verse` int(5) NOT NULL,
-  `text` varchar(100) NOT NULL,
+  `code` varchar(10) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `language_id` int(5) NOT NULL,
   `created` datetime(4) DEFAULT CURRENT_TIMESTAMP(4),
   `modified` datetime(4) DEFAULT CURRENT_TIMESTAMP(4) ON UPDATE CURRENT_TIMESTAMP(4),
   PRIMARY KEY (`id`),
-  KEY `verses_books_id_fk` (`book_id`),
-  CONSTRAINT `verses_books_id_fk` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`)
+  KEY `versions_langauges_id_fk` (`language_id`),
+  CONSTRAINT `versions_langauges_id_fk` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+LOCK TABLES `versions` WRITE;
+/*!40000 ALTER TABLE `versions` DISABLE KEYS */;
+
+INSERT INTO `versions` (`id`, `code`, `name`, `language_id`, `created`, `modified`)
+VALUES
+	(1,'NIV','New International Version',1,'2017-06-08 01:46:05.3235','2017-06-08 01:46:41.5468'),
+	(2,'KRV','Korean Revised Version',2,'2017-06-08 01:47:27.1509','2017-06-08 01:47:27.1509');
+
+/*!40000 ALTER TABLE `versions` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 
