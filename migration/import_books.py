@@ -30,5 +30,9 @@ if __name__ == '__main__':
 
 	# TODO: Load the books.txt and insert each line into the books table
 
+	lines = [line.rstrip('\n') for line in open("books.txt", "r")]
+	for x in lines:
+		db.execute("INSERT INTO books (name) VALUES ('%s')" % x)	
+
 	# Close the db connection
 	db.close()
