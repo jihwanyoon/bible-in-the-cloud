@@ -16,5 +16,20 @@ class Database(object):
 		except:
 			self.connection.rollback()
 
+	def execute_many(self, query):
+		try:
+			self.cursor.execute(query)
+			self.connection.commit()
+		except:
+			self.connection.rollback()
+
+	def find_one(self, query):
+		self.cursor.execute(query)
+		return self.cursor.fetchone()
+
+	def find_all(self, query):
+		self.cursor.execute(query)
+		return self.cursor.fetchall()
+
 	def close(self):
 		self.connection.close()
