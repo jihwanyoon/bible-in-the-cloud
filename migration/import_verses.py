@@ -12,7 +12,7 @@ if __name__ == '__main__':
 	# Load 001.txt and insert each line into the verses table	
 	book = open("bible_versions/krv/001.txt", "r")
 
-	bookid = db.find_one("SELECT id FROM books WHERE id = 1")[0]
+	book_id = db.find_one("SELECT id FROM books WHERE id = 1")[0]
 
 	for line in book:
 		chapter = line[:3]
