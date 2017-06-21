@@ -31,7 +31,7 @@ CREATE TABLE `books` (
   `created` datetime(4) DEFAULT CURRENT_TIMESTAMP(4),
   `modified` datetime(4) DEFAULT CURRENT_TIMESTAMP(4) ON UPDATE CURRENT_TIMESTAMP(4),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
@@ -126,7 +126,7 @@ CREATE TABLE `display_names` (
   KEY `display_names_langauges_id_fk` (`language_id`),
   CONSTRAINT `display_names_books_id_fk` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
   CONSTRAINT `display_names_langauges_id_fk` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -142,7 +142,7 @@ CREATE TABLE `languages` (
   `created` datetime(4) DEFAULT CURRENT_TIMESTAMP(4),
   `modified` datetime(4) DEFAULT CURRENT_TIMESTAMP(4) ON UPDATE CURRENT_TIMESTAMP(4),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `languages` WRITE;
 /*!40000 ALTER TABLE `languages` DISABLE KEYS */;
@@ -167,7 +167,7 @@ CREATE TABLE `verses` (
   `book_id` int(5) NOT NULL,
   `chapter` int(5) NOT NULL,
   `verse` int(5) NOT NULL,
-  `text` varchar(200) NOT NULL DEFAULT '',
+  `text` varchar(500) NOT NULL DEFAULT '',
   `created` datetime(4) DEFAULT CURRENT_TIMESTAMP(4),
   `modified` datetime(4) DEFAULT CURRENT_TIMESTAMP(4) ON UPDATE CURRENT_TIMESTAMP(4),
   PRIMARY KEY (`id`),
@@ -175,7 +175,7 @@ CREATE TABLE `verses` (
   KEY `verses_books_id_fk` (`book_id`),
   CONSTRAINT `verses_books_id_fk` FOREIGN KEY (`book_id`) REFERENCES `books` (`id`),
   CONSTRAINT `verses_versions_id_fk` FOREIGN KEY (`version_id`) REFERENCES `versions` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
@@ -194,7 +194,7 @@ CREATE TABLE `versions` (
   PRIMARY KEY (`id`),
   KEY `versions_langauges_id_fk` (`language_id`),
   CONSTRAINT `versions_langauges_id_fk` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `versions` WRITE;
 /*!40000 ALTER TABLE `versions` DISABLE KEYS */;

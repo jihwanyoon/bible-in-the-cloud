@@ -1,4 +1,5 @@
 import MySQLdb
+import MySQLdb.cursors
 
 class Database(object):
 	def __init__(self, host, user, password, db):
@@ -6,21 +7,23 @@ class Database(object):
 		self.user = user
 		self.password = password
 		self.db = db
-		self.connection = MySQLdb.connect(self.host, self.user, self.password, self.db)
-		self.cursor = self.connection.cursor()
+		self.connection = MySQLdb.connect(host=self.host, user=self.user, passwd=self.password, db=self.db, charset='utf8')
+		self.cursor = self.connection.cursor(cursorclass=MySQLdb.cursors.DictCursor)
 
 	def execute(self, query):
 		try:
 			self.cursor.execute(query)
 			self.connection.commit()
-		except:
+		except Exception as e:
+			print e
 			self.connection.rollback()
 
-	def execute_many(self, query):
+	def execute_many(self, query, args):
 		try:
-			self.cursor.execute(query)
+			self.cursor.executemany(query, args)
 			self.connection.commit()
-		except:
+		except Exception as e:
+			print e
 			self.connection.rollback()
 
 	def find_one(self, query):

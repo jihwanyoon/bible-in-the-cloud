@@ -10,18 +10,22 @@ if __name__ == '__main__':
 	db = Database(HOST, USER, PASSWORD, DB)
 
 	# Load 001.txt and insert each line into the verses table	
-	book = open("bible_versions/krv/001.txt", "r")
+	file = open("bible_versions/krv/001.txt", "r")
 
-	book_id = db.find_one("SELECT id FROM books WHERE id = 1")[0]
+	book_id = db.find_one("SELECT id FROM books WHERE name = 'genesis'")['id']
+	version_id = db.find_one("SELECT id FROM versions WHERE code = 'krv'")['id']
 
-	for line in book:
-		chapter = line[:3]
-		verse = line[4:7]
+	args = []
+	for line in file:
+		chapter = int(line[:3])
+		verse = int(line[4:7])
 		text = line[8:]
 
-		db.execute_many("""
-			INSERT INTO verses (version_id, book_id, chapter, verse, text) 
-			VALUES (2, %s, %s, %s, '%s')""" % (bookid, chapter, verse, text))
+		args.append((version_id, book_id, chapter, verse, text))
+
+	db.execute_many("""
+		INSERT INTO verses (version_id, book_id, chapter, verse, text) 
+		VALUES (%s, %s, %s, %s, %s)""", args)
 	
 	# Close the db connection
 	db.close()
