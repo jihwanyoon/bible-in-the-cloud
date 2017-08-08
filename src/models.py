@@ -2,17 +2,14 @@ from app import db
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
-# TODO: define all the relationships
-# ask serin if its okay to have the relationship name (like in line 13, can versions variable be named versions if the table name is also versions?)
-# do i need lazy???????????????? loading
 class Language(db.Model):
 	__tablename__ = 'languages'
 
 	id = Column(Integer, primary_key=True)
 	code = Column(String)
 	name = Column(String)
-	versionss = relationship('Version', backref='languages')
-	display_namess = relationship('DisplayName', backref='languages')
+	versions = relationship('Version', backref='language')
+	display_names = relationship('DisplayName', backref='language')
 
 
 class Book(db.Model):
@@ -20,7 +17,8 @@ class Book(db.Model):
 
 	id = Column(Integer, primary_key=True)
 	name = Column(String)
-	display_namess = relationship('DisplayName', backref='books')
+	display_names = relationship('DisplayName', backref='book')
+	verses = relationship('Verses', backref='book')
 
 
 class DisplayName(db.Model):
@@ -50,4 +48,5 @@ class Version(db.Model):
 	code = Column(String)
 	name = Column(String)
 	language_id = Column(Integer, ForeignKey('languages.id'))
-	versess = relationship('Verses', backref='versions')
+	verses = relationship('Verses', backref='version', lazy='dynamic')
+
