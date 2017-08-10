@@ -1,50 +1,52 @@
 from app import db
-
-# TODO: define all the data models
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 class Language(db.Model):
 	__tablename__ = 'languages'
-	__table_args__ = {'extend_existing': True}
 
-	id = db.Column('id', db.Integer, primary_key=True)
-	code = db.Column('code', db.String)
-	name = db.Column('name', db.String)
+	id = Column(Integer, primary_key=True)
+	code = Column(String)
+	name = Column(String)
+	versions = relationship('Version', backref='language')
+	display_names = relationship('DisplayName', backref='language')
 
 
 class Book(db.Model):
 	__tablename__ = 'books'
-	__table_args__ = {'extend_existing': True}
 
-	id = db.Column('id', db.Integer)
-	name = db.Column('name', db.String)
+	id = Column(Integer, primary_key=True)
+	name = Column(String)
+	display_names = relationship('DisplayName', backref='book')
+	verses = relationship('Verses', backref='book')
 
 
 class DisplayName(db.Model):
 	__tablename__ = 'display_names'
-	__table_args__ = {'extend_existing': True}
 
-	id = db.Column('id', db.Integer)
-	language_id = db.Column('language_id', db.Integer, primary_key=True)
-	book_id = db.Column('book_id', db.Integer)
-	name = db.Column('name', db.String)
+	id = Column(Integer, primary_key=True)
+	language_id = Column(Integer, ForeignKey('languages.id'))
+	book_id = Column(Integer, ForeignKey('books.id'))
+	name = Column(String)
 
 
 class Verses(db.Model):
 	__tablename__ = 'verses'
-	__table_args__ = {'extend_existing': True}
 
-	id = db.Column('id', db.Integer)
-	version_id = db.Column('version_id', db.Integer, primary_key=True) # would this one be considered primary key?
-	book_id = db.Column('book_id', db.Integer)
-	chapter = db.Column('chapter', db.Integer)
-	verse = db.Column('verse', db.Integer)
-	text = db.Column('text', db.String)
+	id = Column(Integer, primary_key=True)
+	version_id = Column(Integer, ForeignKey('versions.id'))
+	book_id = Column(Integer, ForeignKey('books.id'))
+	chapter = Column(Integer)
+	verse = Column(Integer)
+	text = Column(String)
+
 
 class Version(db.Model):
 	__tablename__ = 'versions'
-	__table_args__ = {'extend_existing': True}
 
-	id = db.Column('id', db.Integer)
-	code = db.Column('code', db.String)
-	name = db.Column('name', db.String)
-	language_id = db.Column('language_id', db.Integer, primary_key=True)
+	id = Column(Integer, primary_key=True)
+	code = Column(String)
+	name = Column(String)
+	language_id = Column(Integer, ForeignKey('languages.id'))
+	verses = relationship('Verses', backref='version', lazy='dynamic')
+
