@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+  <html>
+   <head>
+	  <title>BITC</title>
+	  <link  rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+   </head>
+    <body>
+    	<div class="jumbotron text-center">
+  			<h1>Bible in the Cloud</h1>
+  			<p class="lead">Search any verse you want in any version!</p>
+				</div>
+      <div class="container">
+
+	     <div class="jumbotron text-center">
+	  		<h2>Select the Version, Book, and Chapter to view its verses.</h2>
+			</div>
+
+			<form action="" method="POST">
+				<div class="container">	
+						<div class="container" style="float: left; width: 25%;"> <!-- version search -->
+							<h3>Version</h3>
+							<select class="form-control" name="version" id="version">
+					 			{% for version in versions %}
+									<option value="{{version.code}}">{{version.code}}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+						<div class="container" style="float: left; width: 25%;"> <!-- book search -->
+							<h3>Book</h3>
+							<select class="form-control" name="book" id="book">
+				  			{% for book in books %}
+									<option value="{{book.name}}">{{book.name}}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+						<div class="container" style="float: left; width: 25%;">  
+							<h3>Chapter</h3>
+							<select class="form-control" name="chapter" id="chapter">
+								{% for book in books %}
+									<option value="{{book.id}}">{{book.id}}</option>
+								{% endfor %}
+							</select>
+						</div>
+
+					<div class="container" style="float: left; width: 25%; margin: 5.5% auto 0% auto; text-align: center;" >
+							<input type="submit" value="Search" class="btn btn-primary">
+					</div>
+				</div>
+			</form>
+
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+			<script>
+				$(document).ready(function() {
+					$('select').select2();
+				});
+			</script>
+
+
+    </body>
+  </html>
