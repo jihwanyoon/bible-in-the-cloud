@@ -23,10 +23,15 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 # init MYSQL
 mysql = MySQL(app)
 
-
 # Index
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/')
 def index():
+	return render_template('index.html')
+
+
+# search page
+@app.route('/bitc', methods=['POST', 'GET'])
+def search():
 	# Contains all Versions, Books, and Chapters
 	versions = Version.query.all()
 	books = Book.query.all()
@@ -38,10 +43,10 @@ def index():
 		chapter = request.form.get('chapter')
 		return redirect(url_for('view_chapter', version=version, book=book, chapter=chapter))
 
-	return render_template('home.html', versions=versions, books=books)
+	return render_template('search.html', versions=versions, books=books)
 
 # Load full verses of a chapter
-@app.route('/<version>/<book>/<chapter>', methods=['GET', 'POST']) 
+@app.route('/<version>/<book>/<int:chapter>', methods=['GET', 'POST']) 
 def view_chapter(version, book, chapter):
 
 
