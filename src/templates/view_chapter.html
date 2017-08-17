@@ -2,19 +2,17 @@
 <html>
 <head>
 	<link  rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 	<title>BITC - {{book}} {{chapter}}</title>
 </head>
 <body>
-	<h2>{{version}}: {{book}}</h2>
-				{% for verse in verses %}
-				<p>{{chapter}}:{{verse.verse}} {{verse.text}}</p>
-				{% endfor %}
-
-
-
-
-
-
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<header id="background">
+		<h2>{{version}}: {{book}}</h2>
+		{% for verse in verses %}
+			<p>{{chapter}}:{{verse.verse}} {{verse.text}}</p>
+		{% endfor %}
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</header>
+	
 </body>
 </html>

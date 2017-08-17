@@ -1,0 +1,24 @@
+*{
+	margin:0;
+	padding:0;
+}
+
+#background {
+	background-image: url(image/sky.jpg);
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0  20px;
+}
+
+#background p{
+	font-size: 10px;
+	margin-bottom: 5px;
+	align-self: left;
+}
+
